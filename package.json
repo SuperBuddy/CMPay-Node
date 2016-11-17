@@ -1,0 +1,25 @@
+{
+  "name": "cmpay",
+  "version": "1.0.0",
+  "description": "A package to use with the CM Payment API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cmpay",
+    "cm",
+    "payment",
+    "payment",
+    "methods"
+  ],
+  "author": "Jurien Hamaker <jurien@kings-dev.io> (https://jurien.kings-dev.io)",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.1.2",
+    "bluebird": "^3.4.6",
+    "locutus": "^2.0.6",
+    "lodash": "^4.17.2",
+    "request": "^2.78.0"
+  }
+}
