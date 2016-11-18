@@ -61,23 +61,23 @@ class CMPay {
 		}
 
 		return {
-            issuer_id: issuerId,
-            success_url: this.options.returnUrls.success,
-            cancelled_url: this.options.returnUrls.cancel,
-            failed_url: this.options.returnUrls.fail,
-            expired_url: this.options.returnUrls.error,
-            purchase_id: purchaseId,
-            description: description ? description : ''
-        };
+			issuer_id: issuerId,
+			success_url: this.options.returnUrls.success,
+			cancelled_url: this.options.returnUrls.cancel,
+			failed_url: this.options.returnUrls.fail,
+			expired_url: this.options.returnUrls.error,
+			purchase_id: purchaseId,
+			description: description ? description : ''
+		};
 	}
 
 	createIdealPayment(amount, issuerId, purchaseId, description) {
 		return {
-            amount: amount,
-            currency: this.options.currency,
-            payment_method: 'iDEAL',
-            payment_details: this.createPaymentDetails(issuerId, purchaseId, description)
-        };
+			amount: amount,
+			currency: this.options.currency,
+			payment_method: 'iDEAL',
+			payment_details: this.createPaymentDetails(issuerId, purchaseId, description)
+		};
 	}
 
 	getBankList() {
@@ -90,12 +90,12 @@ class CMPay {
 		}
 
 		let data = {
-            amount: payment.amount,
-            currency: this.options.currency,
-            payments: [payment]
-        };
+			amount: payment.amount,
+			currency: this.options.currency,
+			payments: [payment]
+		};
 
-        return this.sendRequest('post', '/charges/v1', data);
+		return this.sendRequest('post', '/charges/v1', data);
 	}
 
 	getCharge(chargeId) {
