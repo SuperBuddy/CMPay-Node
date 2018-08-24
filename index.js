@@ -163,6 +163,30 @@ class CMPay {
 
 		return this.sendRequest('/payments/v1/' + paymentId);
 	}
+
+	/**
+	 * @param  {string} paymentId the id of a payment
+	 * @param  {string} reason the reason for the refund
+	 * @param  {string} details custom details about the refund
+	 * @return {Promise} request promise object.
+	 */
+	async refundPayment(paymentId, reason, details = {}) {
+		if(!paymentId || !reason) {
+			throw new Error('paymentId and reason are required variables.');
+		}
+
+		let payment = await this.getPayment(paymentId);
+
+		let data = {
+			"amount": payment.amount,
+			"currency": this.options.currency,
+			"reason": reason,
+			"payment_id": paymentId,
+			"refund_details": details
+		};
+
+		return this.sendRequest('/refunds/v1', data, 'post');
+	}
 }
 
 
