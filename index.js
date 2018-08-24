@@ -66,7 +66,9 @@ class CMPay {
 
 				request(httpOptions, (err, res, resBody) => {
 					if(err) { return reject(err); }
-					resolve(JSON.parse(resBody));
+					let jsonBody = JSON.parse(resBody);
+					if(jsonBody.errors) { return reject(new Error(jsonBody.errors[0].message)); }
+					resolve(jsonBody);
 				});
 			}, err => reject(err));
 		})
