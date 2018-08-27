@@ -172,7 +172,7 @@ class CMPay {
 	 * @param  {string} details custom details about the refund
 	 * @return {Promise} request promise object.
 	 */
-	async refundPayment(paymentId, reason, details = {}) {
+	async refundPayment(paymentId, reason, refundDetails = {}) {
 		if(!paymentId || !reason) {
 			throw new Error('paymentId and reason are required variables.');
 		}
@@ -184,7 +184,7 @@ class CMPay {
 			"currency": this.options.currency,
 			"reason": reason,
 			"payment_id": paymentId,
-			"refund_details": details
+			"refund_details": refundDetails
 		};
 
 		return this.sendRequest('/refunds/v1', data, 'post');
