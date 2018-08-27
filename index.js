@@ -66,7 +66,9 @@ class CMPay {
 
 				request(httpOptions, (err, res, resBody) => {
 					if(err) { return reject(err); }
-					resolve(JSON.parse(resBody));
+					let jsonBody = JSON.parse(resBody);
+					if(jsonBody.errors) { return reject(new Error(jsonBody.errors[0].message)); }
+					resolve(jsonBody);
 				});
 			}, err => reject(err));
 		})
@@ -162,6 +164,30 @@ class CMPay {
 		}
 
 		return this.sendRequest('/payments/v1/' + paymentId);
+	}
+
+	/**
+	 * @param  {string} paymentId the id of a payment
+	 * @param  {string} reason the reason for the refund
+	 * @param  {string} details custom details about the refund
+	 * @return {Promise} request promise object.
+	 */
+	async refundPayment(paymentId, reason, refundDetails = {}) {
+		if(!paymentId || !reason) {
+			throw new Error('paymentId and reason are required variables.');
+		}
+
+		let payment = await this.getPayment(paymentId);
+
+		let data = {
+			"amount": payment.amount,
+			"currency": this.options.currency,
+			"reason": reason,
+			"payment_id": paymentId,
+			"refund_details": refundDetails
+		};
+
+		return this.sendRequest('/refunds/v1', data, 'post');
 	}
 }
 
