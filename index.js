@@ -81,7 +81,7 @@ class CMPay {
 	 * @param {object} returnUrls object with return urls if you want to use something else than the config defined
 	 * @return {object} CMPay formatted payment details
 	 */
-	createPaymentDetails(issuerId, purchaseId, description, returnUrls = false) {
+	createIdealPaymentDetails(issuerId, purchaseId, description, returnUrls = false) {
 		if(!issuerId) {
 			throw new Error('issuerId is a required variable.');
 		}
@@ -113,7 +113,69 @@ class CMPay {
 			"amount": amount,
 			"currency": this.options.currency,
 			"payment_method": "iDEAL",
-			"payment_details": this.createPaymentDetails(issuerId, purchaseId, description, returnUrls)
+			"payment_details": this.createIdealPaymentDetails(issuerId, purchaseId, description, returnUrls)
+		};
+	}
+
+	/**
+	 * @param {string} purchaseId identifier to recognize your payment
+	 * @param {string} bankAccountNumber The IBAN of the end user
+	 * @param {string} name The IBAN of the end user
+	 * @param {string} description Optional description for the payment
+	 * @param {string} mandateId Unique identification of the mandate
+	 * @param {string} mandateStartDate Date at which the mandate was obtained
+	 * @param {string} transactionDescription Optional description that will be shown on the end user their bank statement. If transaction_description is not provided, description will be used.
+	 * @return {object} CMPay formatted payment details
+	 */
+	createDirectDebitPaymentDetails(purchaseId, bankAccountNumber, name, description, mandateId, mandateStartDate, transactionDescription) {
+		if(!purchaseId) {
+			throw new Error('purchaseId is a required variable.');
+		}
+
+		if(!bankAccountNumber) {
+			throw new Error('bankAccountNumber is a required variable.');
+		}
+
+		if(!name) {
+			throw new Error('name is a required variable.');
+		}
+
+		if(!mandateId) {
+			throw new Error('mandateId is a required variable.');
+		}
+
+		if(!mandateStartDate) {
+			throw new Error('mandateStartDate is a required variable.');
+		}
+
+		return {
+			"purchase_id": purchaseId,
+			"bank_account_number": bankAccountNumber,
+			"name": name,
+			"description": description ? description : '',
+			"mandate_id": mandateId,
+			"mandate_start_date": mandateStartDate,
+			"transaction_description": transactionDescription
+		};
+	}
+
+	/**
+	 * @param {double} amount The amount to be paid
+	 * @param {string} purchaseId identifier to recognize your payment
+	 * @param {string} bankAccountNumber The IBAN of the end user
+	 * @param {string} name The IBAN of the end user
+	 * @param {string} description Optional description for the payment
+	 * @param {string} mandateId Unique identification of the mandate
+	 * @param {string} mandateStartDate Date at which the mandate was obtained
+	 * @param {string} transactionDescription Optional description that will be shown on the end user their bank statement. If transaction_description is not provided, description will be used.
+	 * @return {object} CMPay formatted payment
+	 */
+	createDirectDebitPayment(amount, purchaseId, bankAccountNumber, name, description, mandateId, mandateStartDate, transactionDescription) {
+		return {
+			"amount": amount,
+			"currency": this.options.currency,
+			"payment_method": "DirectDebit",
+			"payment_details": this.createDirectDebitPaymentDetails(purchaseId, bankAccountNumber, name, description, mandateId, mandateStartDate, transactionDescription)
 		};
 	}
 
