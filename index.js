@@ -57,20 +57,19 @@ class CMPay {
 			}
 
 			// create the oAuth header needed for the Authorization header.
-			createOAuthHeader(method, fullUrl, body, this.options.consumerKey, this.getSigningKey())
-			.then(result => {
-				httpOptions.headers = {
-					'Content-type': 'application/json',
-					'Authorization': result
-				};
+			let oAuthHeader = createOAuthHeader(method, fullUrl, body, this.options.consumerKey, this.getSigningKey())
+			
+			httpOptions.headers = {
+				'Content-type': 'application/json',
+				'Authorization': oAuthHeader
+			};
 
-				request(httpOptions, (err, res, resBody) => {
-					if(err) { return reject(err); }
-					let jsonBody = JSON.parse(resBody);
-					if(jsonBody.errors) { return reject(new Error(jsonBody.errors[0].message)); }
-					resolve(jsonBody);
-				});
-			}, err => reject(err));
+			request(httpOptions, (err, res, resBody) => {
+				if(err) { return reject(err); }
+				let jsonBody = JSON.parse(resBody);
+				if(jsonBody.errors) { return reject(new Error(jsonBody.errors[0].message)); }
+				resolve(jsonBody);
+			});
 		})
 	}
 
