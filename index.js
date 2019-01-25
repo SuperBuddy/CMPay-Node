@@ -57,8 +57,8 @@ class CMPay {
 			}
 
 			// create the oAuth header needed for the Authorization header.
-			let oAuthHeader = createOAuthHeader(method, fullUrl, body, this.options.consumerKey, this.getSigningKey())
-			
+			let oAuthHeader = createOAuthHeader(method, fullUrl, body, this.options.consumerKey, this.getSigningKey());
+
 			httpOptions.headers = {
 				'Content-type': 'application/json',
 				'Authorization': oAuthHeader
@@ -81,11 +81,11 @@ class CMPay {
 	 * @return {object} CMPay formatted payment details
 	 */
 	createIdealPaymentDetails(issuerId, purchaseId, description, returnUrls = false) {
-		if(!issuerId) {
+		if (!issuerId) {
 			throw new Error('issuerId is a required variable.');
 		}
 
-		if(!purchaseId) {
+		if (!purchaseId) {
 			throw new Error('purchaseId is a required variable.');
 		}
 
@@ -127,23 +127,23 @@ class CMPay {
 	 * @return {object} CMPay formatted payment details
 	 */
 	createDirectDebitPaymentDetails(purchaseId, bankAccountNumber, name, description, mandateId, mandateStartDate, transactionDescription) {
-		if(!purchaseId) {
+		if (!purchaseId) {
 			throw new Error('purchaseId is a required variable.');
 		}
 
-		if(!bankAccountNumber) {
+		if (!bankAccountNumber) {
 			throw new Error('bankAccountNumber is a required variable.');
 		}
 
-		if(!name) {
+		if (!name) {
 			throw new Error('name is a required variable.');
 		}
 
-		if(!mandateId) {
+		if (!mandateId) {
 			throw new Error('mandateId is a required variable.');
 		}
 
-		if(!mandateStartDate) {
+		if (!mandateStartDate) {
 			throw new Error('mandateStartDate is a required variable.');
 		}
 
@@ -174,7 +174,15 @@ class CMPay {
 			"amount": amount,
 			"currency": this.options.currency,
 			"payment_method": "DirectDebit",
-			"payment_details": this.createDirectDebitPaymentDetails(purchaseId, bankAccountNumber, name, description, mandateId, mandateStartDate, transactionDescription)
+			"payment_details": this.createDirectDebitPaymentDetails(
+				purchaseId,
+				bankAccountNumber,
+				name,
+				description,
+				mandateId,
+				mandateStartDate,
+				transactionDescription
+			)
 		};
 	}
 
@@ -190,7 +198,7 @@ class CMPay {
 	 * @return {Promise} request promise object.
 	 */
 	createCharge(payment) {
-		if(typeof payment !== 'object') {
+		if (typeof payment !== 'object') {
 			throw new Error('Payments must be an object, use one of the createPayments methods to create a payment.');
 		}
 
