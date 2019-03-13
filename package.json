@@ -1,6 +1,6 @@
 {
 	"name": "cmpay",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "A package to use with the CM Payment API",
 	"main": "index.js",
 	"scripts": {
